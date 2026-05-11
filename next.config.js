@@ -1,3 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = { reactStrictMode: true }
+const nextConfig = {
+  experimental: {
+    serverComponentsExternalPackages: ['jsonwebtoken'],
+  },
+}
+
 module.exports = nextConfig

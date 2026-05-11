@@ -1,11 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
-import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 
 export default function LightThreeBackground() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -38,16 +33,10 @@ export default function LightThreeBackground() {
       }
     }, 200);
 
-    const renderScene = new RenderPass(scene, camera);
-    const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.2, 0.4, 0.85);
-    const composer = new EffectComposer(renderer);
-    composer.addPass(renderScene);
-    composer.addPass(bloomPass);
-
     const geometry = new THREE.SphereGeometry(1.2, 32, 32);
     const material = new THREE.MeshStandardMaterial({
       color: 0x4f46e5, roughness: 0.2, metalness: 0.9,
-      emissive: 0x4f46e5, emissiveIntensity: 0.3
+      emissive: 0x4f46e5, emissiveIntensity: 0.5
     });
     const sphere = new THREE.Mesh(geometry, material);
     scene.add(sphere);
@@ -55,7 +44,7 @@ export default function LightThreeBackground() {
     const torusGeometry = new THREE.TorusGeometry(2, 0.1, 16, 100);
     const torusMaterial = new THREE.MeshStandardMaterial({
       color: 0x818cf8, metalness: 0.9, roughness: 0.1,
-      emissive: 0x818cf8, emissiveIntensity: 0.2
+      emissive: 0x818cf8, emissiveIntensity: 0.3
     });
     const torus = new THREE.Mesh(torusGeometry, torusMaterial);
     torus.rotation.x = Math.PI / 2;
@@ -89,18 +78,6 @@ export default function LightThreeBackground() {
       scene.add(miniSphere);
     }
 
-    const fontLoader = new FontLoader();
-    fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
-      const textGeometry = new TextGeometry('MOSTAFA', { font: font, size: 0.5, height: 0.1 });
-      textGeometry.center();
-      const textMaterial = new THREE.MeshStandardMaterial({
-        color: 0x4f46e5, metalness: 0.8, roughness: 0.2, emissive: 0x4f46e5, emissiveIntensity: 0.2
-      });
-      const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-      textMesh.position.z = -5;
-      scene.add(textMesh);
-    });
-
     const particles: THREE.Points[] = [];
     const createExplosion = (x: number, y: number, color: number) => {
       const particleCount = 100;
@@ -121,7 +98,7 @@ export default function LightThreeBackground() {
       particles.push(particleSystem);
     };
 
-    const ambientLight = new THREE.AmbientLight(0x404040, 1.5);
+    const ambientLight = new THREE.AmbientLight(0x404040, 2);
     scene.add(ambientLight);
     const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
     dirLight.position.set(1, 2, 1);
@@ -205,7 +182,7 @@ export default function LightThreeBackground() {
         }
       });
 
-      composer.render();
+      renderer.render(scene, camera);
     }
     animate();
 
@@ -213,7 +190,6 @@ export default function LightThreeBackground() {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
-      composer.setSize(window.innerWidth, window.innerHeight);
     };
     window.addEventListener('resize', handleResize);
 
@@ -228,7 +204,6 @@ export default function LightThreeBackground() {
         containerRef.current.removeChild(renderer.domElement);
       }
       renderer.dispose();
-      composer.dispose();
     };
   }, []);
 
@@ -266,7 +241,7 @@ export default function LightThreeBackground() {
         className="fixed inset-0 -z-10 pointer-events-auto cursor-pointer transition-all duration-1000"
         style={{
           background: isDay
-          ? 'linear-gradient(to bottom, #87CEEB, #E0F6FF)'
+        ? 'linear-gradient(to bottom, #87CEEB, #E0F6FF)'
             : 'radial-gradient(circle at center, #0f0f1f, #000)'
         }}
       />

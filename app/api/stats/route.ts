@@ -1,3 +1,7 @@
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+
+
 import { NextResponse } from 'next/server';
 import { dbConnect } from '@/lib/dbConnect';
 import Project from '@/lib/models/Project';

@@ -55,7 +55,7 @@ export default function Home() {
         
         <section className="mt-24 bg-white/5 backdrop-blur rounded-2xl p-8 border border-white/10">
           <h2 className="text-3xl font-bold mb-6 text-center">تواصل معي</h2>
-          <form className="max-w-xl mx-auto space-y-4" onSubmit={(e) => { e.preventDefault(); toast.success('تم الإرسال (تجريبي)'); }}>
+          <form className="max-w-xl mx-auto space-y-4" onSubmit={(e: React.FormEvent) => { e.preventDefault(); toast.success('تم الإرسال (تجريبي)'); }}>
             <input type="email" placeholder="بريدك الإلكتروني" className="w-full p-3 bg-black/50 rounded-lg border border-gray-700 focus:border-indigo-500 outline-none" />
             <textarea placeholder="أخبرني عن مشروعك..." rows={4} className="w-full p-3 bg-black/50 rounded-lg border border-gray-700 focus:border-indigo-500 outline-none"></textarea>
             <button type="submit" className="w-full md:w-auto px-6 py-3 bg-indigo-600 rounded-full hover:bg-indigo-500">إرسال</button>

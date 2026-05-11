@@ -25,7 +25,6 @@ export default function LightThreeBackground() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     containerRef.current.appendChild(renderer.domElement);
 
-    // 8. Loading Screen
     let progress = 0;
     const loadingInterval = setInterval(() => {
       progress += Math.random() * 15;
@@ -39,14 +38,12 @@ export default function LightThreeBackground() {
       }
     }, 200);
 
-    // Bloom Effect للـ Glow
     const renderScene = new RenderPass(scene, camera);
     const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.2, 0.4, 0.85);
     const composer = new EffectComposer(renderer);
     composer.addPass(renderScene);
     composer.addPass(bloomPass);
 
-    // 2. الكورة - بتغير لون
     const geometry = new THREE.SphereGeometry(1.2, 32, 32);
     const material = new THREE.MeshStandardMaterial({
       color: 0x4f46e5, roughness: 0.2, metalness: 0.9,
@@ -55,7 +52,6 @@ export default function LightThreeBackground() {
     const sphere = new THREE.Mesh(geometry, material);
     scene.add(sphere);
 
-    // حلقة
     const torusGeometry = new THREE.TorusGeometry(2, 0.1, 16, 100);
     const torusMaterial = new THREE.MeshStandardMaterial({
       color: 0x818cf8, metalness: 0.9, roughness: 0.1,
@@ -65,7 +61,6 @@ export default function LightThreeBackground() {
     torus.rotation.x = Math.PI / 2;
     scene.add(torus);
 
-    // نجوم للليل
     const starGeometry = new THREE.BufferGeometry();
     const starCount = 800;
     const positions = new Float32Array(starCount * 3);
@@ -75,7 +70,6 @@ export default function LightThreeBackground() {
     const stars = new THREE.Points(starGeometry, starMaterial);
     scene.add(stars);
 
-    // 3. شمس للنهار
     const sunGeometry = new THREE.SphereGeometry(3, 32, 32);
     const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffdd00, transparent: true, opacity: 0.8 });
     const sun = new THREE.Mesh(sunGeometry, sunMaterial);
@@ -83,7 +77,6 @@ export default function LightThreeBackground() {
     sun.visible = false;
     scene.add(sun);
 
-    // كرات صغيرة
     const miniSpheres: THREE.Mesh[] = [];
     const colors = [0xff6b6b, 0x4ecdc4, 0xffe66d];
     for (let i = 0; i < 3; i++) {
@@ -96,7 +89,6 @@ export default function LightThreeBackground() {
       scene.add(miniSphere);
     }
 
-    // نص 3D
     const fontLoader = new FontLoader();
     fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
       const textGeometry = new TextGeometry('MOSTAFA', { font: font, size: 0.5, height: 0.1 });
@@ -109,7 +101,6 @@ export default function LightThreeBackground() {
       scene.add(textMesh);
     });
 
-    // انفجار عند الضغط
     const particles: THREE.Points[] = [];
     const createExplosion = (x: number, y: number, color: number) => {
       const particleCount = 100;
@@ -130,7 +121,6 @@ export default function LightThreeBackground() {
       particles.push(particleSystem);
     };
 
-    // إضاءة
     const ambientLight = new THREE.AmbientLight(0x404040, 1.5);
     scene.add(ambientLight);
     const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
@@ -138,14 +128,12 @@ export default function LightThreeBackground() {
     scene.add(dirLight);
     camera.position.z = 3.5;
 
-    // ماوس
     const handleMouseMove = (event: MouseEvent) => {
       mouseRef.current.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouseRef.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
     };
     window.addEventListener('mousemove', handleMouseMove);
 
-    // كليك
     const handleClick = (event: MouseEvent) => {
       const x = (event.clientX / window.innerWidth) * 2 - 1;
       const y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -153,7 +141,6 @@ export default function LightThreeBackground() {
     };
     window.addEventListener('click', handleClick);
 
-    // 2. تغيير اللون كل 10 ثواني
     const colorPalette = [0x4f46e5, 0x3b82f6, 0x10b981, 0xef4444, 0xf59e0b];
     let colorIndex = 0;
     const colorInterval = setInterval(() => {
@@ -172,18 +159,15 @@ export default function LightThreeBackground() {
       frameId = requestAnimationFrame(animate);
       time += 0.005;
 
-      // الكورة
       sphere.rotation.x = time * 0.5;
       sphere.rotation.y = time * 0.8;
       sphere.position.y = Math.sin(time) * 0.2;
       sphere.position.x += (mouseRef.current.x * 0.5 - sphere.position.x) * 0.02;
       sphere.position.y += (-mouseRef.current.y * 0.5 - sphere.position.y) * 0.02;
 
-      // الحلقة
       torus.rotation.z = time * -0.3;
       torus.rotation.x = Math.PI / 2 + mouseRef.current.y * 0.3;
 
-      // 3. نهار/ليل
       if (isDayRef.current) {
         stars.visible = false;
         sun.visible = true;
@@ -194,7 +178,6 @@ export default function LightThreeBackground() {
         stars.rotation.y = time * 0.05;
       }
 
-      // الكرات الصغيرة
       miniSpheres.forEach((mini, i) => {
         const angle = time * (1 + i * 0.5) + (i * Math.PI * 2 / 3);
         mini.position.x = Math.cos(angle) * 2.5;
@@ -204,7 +187,6 @@ export default function LightThreeBackground() {
         mini.rotation.y = time * 2;
       });
 
-      // Particles
       particles.forEach((particle, index) => {
         const positions = particle.geometry.attributes.position.array as Float32Array;
         const velocities = particle.userData.velocities;
@@ -284,7 +266,7 @@ export default function LightThreeBackground() {
         className="fixed inset-0 -z-10 pointer-events-auto cursor-pointer transition-all duration-1000"
         style={{
           background: isDay
-           ? 'linear-gradient(to bottom, #87CEEB, #E0F6FF)'
+          ? 'linear-gradient(to bottom, #87CEEB, #E0F6FF)'
             : 'radial-gradient(circle at center, #0f0f1f, #000)'
         }}
       />

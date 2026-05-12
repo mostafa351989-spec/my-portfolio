@@ -31,14 +31,12 @@ export default function Home() {
     e.preventDefault();
     setLoading(true);
     setStatus('جاري الإرسال...');
-
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
-
       if (res.ok) {
         setStatus('✅ اتبعتت بنجاح! هرد عليك قريب');
         setFormData({ name: '', email: '', message: '' });
@@ -55,15 +53,15 @@ export default function Home() {
 
   return (
     <main className="relative">
-      {/* Scroll Progress Bar - دهبي ملكي */}
+      {/* Scroll Progress Bar - دهبي ملكي حقيقي */}
       <div
-        className="fixed top-0 left-0 h-1 bg-gradient-to-r from-[#B8860B] via-[#D4AF37] to-[#B8860B] z-50 transition-all duration-300"
+        className="fixed top-0 left-0 h-1 bg-gradient-to-r from-[#8B7355] via-[#C9B037] to-[#8B7355] z-50 transition-all duration-300"
         style={{ width: `${scrollProgress}%` }}
       />
 
-      {/* Mouse Glow - دهبي */}
+      {/* Mouse Glow */}
       <div
-        className="pointer-events-none fixed w-96 h-96 rounded-full opacity-20 blur-3xl bg-[#D4AF37] z-0 transition-all duration-300"
+        className="pointer-events-none fixed w-96 h-96 rounded-full opacity-15 blur-3xl bg-[#C9B037] z-0 transition-all duration-300"
         style={{
           left: mousePos.x - 192,
           top: mousePos.y - 192,
@@ -77,8 +75,8 @@ export default function Home() {
         {/* 1. Hero Section */}
         <section className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
           <div className="relative">
-            <div className="absolute inset-0 bg-[#D4AF37]/20 blur-3xl"></div>
-            <h1 className="relative text-5xl md:text-7xl font-bold bg-gradient-to-r from-[#B8860B] via-[#D4AF37] to-[#B8860B] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(212,175,55,0.5)]">
+            <div className="absolute inset-0 bg-[#C9B037]/15 blur-3xl"></div>
+            <h1 className="relative text-5xl md:text-7xl font-bold bg-gradient-to-r from-[#8B7355] via-[#C9B037] to-[#8B7355] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(201,176,55,0.4)]">
               مصطفى محمود عيسى
             </h1>
           </div>
@@ -87,10 +85,10 @@ export default function Home() {
             أحول الأفكار إلى تجارب بصرية تفاعلية باستخدام أحدث التقنيات. متخصص في Three.js و Next.js.
           </p>
           <div className="flex flex-wrap gap-4 mt-8 justify-center">
-            <a href="https://wa.me/201044907363" className="px-6 py-3 border-2 border-[#D4AF37]/50 rounded-full hover:bg-[#D4AF37]/10 hover:border-[#D4AF37] transition-all hover:shadow-[0_0_20px_rgba(212,175,55,0.3)]">
+            <a href="https://wa.me/201044907363" className="px-6 py-3 border-2 border-[#C9B037]/50 rounded-full hover:bg-[#C9B037]/10 hover:border-[#C9B037] transition-all hover:shadow-[0_0_20px_rgba(201,176,55,0.3)]">
               واتساب: 01044907363
             </a>
-            <a href="#projects" className="px-6 py-3 bg-gradient-to-r from-[#B8860B] to-[#D4AF37] rounded-full hover:from-[#9A7209] hover:to-[#B8860B] transition-all hover:shadow-[0_0_30px_rgba(212,175,55,0.5)]">
+            <a href="#projects" className="px-6 py-3 bg-gradient-to-r from-[#8B7355] to-[#C9B037] rounded-full hover:from-[#6B5A44] hover:to-[#A67C00] transition-all hover:shadow-[0_0_30px_rgba(201,176,55,0.5)]">
               شوف شغلي
             </a>
           </div>
@@ -99,7 +97,7 @@ export default function Home() {
             <h3 className="text-2xl font-bold mb-6">المهارات</h3>
             <div className="flex flex-wrap justify-center gap-3 max-w-3xl">
               {['Next.js', 'React', 'Three.js', 'TypeScript', 'Tailwind CSS', 'Node.js', 'MongoDB', 'GSAP', 'UI/UX', 'Figma'].map((skill) => (
-                <span key={skill} className="px-4 py-2 bg-black/40 backdrop-blur rounded-full border border-[#D4AF37]/30 text-sm hover:border-[#D4AF37]/60 hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-all">
+                <span key={skill} className="px-4 py-2 bg-black/40 backdrop-blur rounded-full border border-[#C9B037]/30 text-sm hover:border-[#C9B037]/60 hover:shadow-[0_0_15px_rgba(201,176,55,0.3)] transition-all">
                   {skill}
                 </span>
               ))}
@@ -110,7 +108,7 @@ export default function Home() {
         {/* 2. Services Section */}
         <section className="min-h-screen px-4 py-20">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-gradient-to-r from-[#B8860B] via-[#D4AF37] to-[#B8860B] bg-clip-text text-transparent">خدماتي</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-gradient-to-r from-[#8B7355] via-[#C9B037] to-[#8B7355] bg-clip-text text-transparent">خدماتي</h2>
             <p className="text-center text-gray-400 mb-16">حلول تقنية متكاملة لمشروعك</p>
             <div className="grid md:grid-cols-3 gap-6">
               {[
@@ -118,11 +116,11 @@ export default function Home() {
                 { icon: '⚡', title: 'تطوير Full Stack', desc: 'بناء مواقع متكاملة من الواجهة لقواعد البيانات بأحدث التقنيات' },
                 { icon: '🎨', title: 'تصميم UI/UX', desc: 'واجهات عصرية سريعة ومتجاوبة مع كل الأجهزة وتجربة سلسة' }
               ].map((service) => (
-                <div key={service.title} className="group relative bg-black/40 backdrop-blur-lg p-8 rounded-3xl border border-[#D4AF37]/20 hover:border-[#D4AF37]/60 transition-all duration-500 hover:shadow-[0_0_40px_rgba(212,175,55,0.2)]">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/0 to-[#B8860B]/0 group-hover:from-[#D4AF37]/10 group-hover:to-[#B8860B]/10 rounded-3xl transition-all duration-500"></div>
+                <div key={service.title} className="group relative bg-black/40 backdrop-blur-lg p-8 rounded-3xl border border-[#C9B037]/20 hover:border-[#C9B037]/60 transition-all duration-500 hover:shadow-[0_0_40px_rgba(201,176,55,0.2)]">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#C9B037]/0 to-[#8B7355]/0 group-hover:from-[#C9B037]/10 group-hover:to-[#8B7355]/10 rounded-3xl transition-all duration-500"></div>
                   <div className="relative">
                     <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">{service.icon}</div>
-                    <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-[#D4AF37] to-[#B8860B] bg-clip-text text-transparent">{service.title}</h3>
+                    <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-[#C9B037] to-[#8B7355] bg-clip-text text-transparent">{service.title}</h3>
                     <p className="text-gray-300 leading-relaxed">{service.desc}</p>
                   </div>
                 </div>
@@ -140,10 +138,10 @@ export default function Home() {
               { num: '3+', label: 'سنين خبرة' },
               { num: '100%', label: 'التزام بالمواعيد' }
             ].map((stat) => (
-              <div key={stat.label} className="relative text-center bg-black/40 backdrop-blur-lg p-6 rounded-2xl border border-[#D4AF37]/30 hover:border-[#D4AF37]/60 transition-all group hover:shadow-[0_0_30px_rgba(212,175,55,0.3)]">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/0 to-[#B8860B]/0 group-hover:from-[#D4AF37]/5 group-hover:to-[#B8860B]/5 rounded-2xl transition-all"></div>
+              <div key={stat.label} className="relative text-center bg-black/40 backdrop-blur-lg p-6 rounded-2xl border border-[#C9B037]/30 hover:border-[#C9B037]/60 transition-all group hover:shadow-[0_0_30px_rgba(201,176,55,0.3)]">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#C9B037]/0 to-[#8B7355]/0 group-hover:from-[#C9B037]/5 group-hover:to-[#8B7355]/5 rounded-2xl transition-all"></div>
                 <div className="relative">
-                  <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#D4AF37] to-[#B8860B] bg-clip-text text-transparent mb-2">{stat.num}</div>
+                  <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#C9B037] to-[#8B7355] bg-clip-text text-transparent mb-2">{stat.num}</div>
                   <div className="text-gray-300">{stat.label}</div>
                 </div>
               </div>
@@ -154,7 +152,7 @@ export default function Home() {
         {/* 4. How I Work Section */}
         <section className="min-h-screen px-4 py-20">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-[#B8860B] via-[#D4AF37] to-[#B8860B] bg-clip-text text-transparent">طريقة الشغل</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-[#8B7355] via-[#C9B037] to-[#8B7355] bg-clip-text text-transparent">طريقة الشغل</h2>
             <div className="grid md:grid-cols-4 gap-6">
               {[
                 { step: '01', title: 'نتناقش', desc: 'نتكلم عن فكرتك والمتطلبات' },
@@ -162,8 +160,8 @@ export default function Home() {
                 { step: '03', title: 'أبرمج', desc: 'بكود الموقع بأحدث التقنيات' },
                 { step: '04', title: 'نطلق', desc: 'بنرفع الموقع ونتابع معاك' }
               ].map((item) => (
-                <div key={item.step} className="bg-black/40 backdrop-blur-lg p-6 rounded-3xl border border-[#D4AF37]/20 hover:border-[#D4AF37]/60 transition-all hover:shadow-[0_0_30px_rgba(212,175,55,0.2)]">
-                  <div className="text-5xl font-bold bg-gradient-to-r from-[#D4AF37]/30 to-[#B8860B]/30 bg-clip-text text-transparent mb-4">{item.step}</div>
+                <div key={item.step} className="bg-black/40 backdrop-blur-lg p-6 rounded-3xl border border-[#C9B037]/20 hover:border-[#C9B037]/60 transition-all hover:shadow-[0_0_30px_rgba(201,176,55,0.2)]">
+                  <div className="text-5xl font-bold bg-gradient-to-r from-[#C9B037]/30 to-[#8B7355]/30 bg-clip-text text-transparent mb-4">{item.step}</div>
                   <h3 className="text-xl font-bold mb-3">{item.title}</h3>
                   <p className="text-gray-400">{item.desc}</p>
                 </div>
@@ -175,14 +173,14 @@ export default function Home() {
         {/* 5. Projects Section */}
         <section id="projects" className="min-h-screen px-4 py-20">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-gradient-to-r from-[#B8860B] via-[#D4AF37] to-[#B8860B] bg-clip-text text-transparent">أحدث المشاريع</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-gradient-to-r from-[#8B7355] via-[#C9B037] to-[#8B7355] bg-clip-text text-transparent">أحدث المشاريع</h2>
             <p className="text-center text-gray-400 mb-12">مجموعة من أفضل أعمالي</p>
 
             <div className="flex justify-center gap-4 mb-12 flex-wrap">
-              <button className="px-6 py-2 bg-gradient-to-r from-[#B8860B] to-[#D4AF37] rounded-full hover:shadow-[0_0_20px_rgba(212,175,55,0.5)] transition-all">الكل</button>
-              <button className="px-6 py-2 bg-black/40 border border-[#D4AF37]/30 rounded-full hover:bg-[#D4AF37]/10 hover:border-[#D4AF37]/60 transition-all">3D</button>
-              <button className="px-6 py-2 bg-black/40 border border-[#D4AF37]/30 rounded-full hover:bg-[#D4AF37]/10 hover:border-[#D4AF37]/60 transition-all">Design</button>
-              <button className="px-6 py-2 bg-black/40 border border-[#D4AF37]/30 rounded-full hover:bg-[#D4AF37]/10 hover:border-[#D4AF37]/60 transition-all">Web App</button>
+              <button className="px-6 py-2 bg-gradient-to-r from-[#8B7355] to-[#C9B037] rounded-full hover:shadow-[0_0_20px_rgba(201,176,55,0.5)] transition-all">الكل</button>
+              <button className="px-6 py-2 bg-black/40 border border-[#C9B037]/30 rounded-full hover:bg-[#C9B037]/10 hover:border-[#C9B037]/60 transition-all">3D</button>
+              <button className="px-6 py-2 bg-black/40 border border-[#C9B037]/30 rounded-full hover:bg-[#C9B037]/10 hover:border-[#C9B037]/60 transition-all">Design</button>
+              <button className="px-6 py-2 bg-black/40 border border-[#C9B037]/30 rounded-full hover:bg-[#C9B037]/10 hover:border-[#C9B037]/60 transition-all">Web App</button>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
@@ -192,13 +190,13 @@ export default function Home() {
                 { name: 'لوحة تحكم إدارة', tech: 'React + Node.js', desc: 'Dashboard كامل لإدارة البيانات' },
                 { name: 'موقع شخصي بتأثيرات GSAP', tech: 'GSAP + Tailwind', desc: 'أنيميشن احترافي وسلس' }
               ].map((project) => (
-                <div key={project.name} className="group relative bg-black/40 backdrop-blur-lg p-8 rounded-3xl border border-[#D4AF37]/20 hover:border-[#D4AF37]/60 transition-all duration-500 hover:shadow-[0_0_40px_rgba(212,175,55,0.2)]">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/0 to-[#B8860B]/0 group-hover:from-[#D4AF37]/10 group-hover:to-[#B8860B]/10 rounded-3xl transition-all"></div>
+                <div key={project.name} className="group relative bg-black/40 backdrop-blur-lg p-8 rounded-3xl border border-[#C9B037]/20 hover:border-[#C9B037]/60 transition-all duration-500 hover:shadow-[0_0_40px_rgba(201,176,55,0.2)]">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#C9B037]/0 to-[#8B7355]/0 group-hover:from-[#C9B037]/10 group-hover:to-[#8B7355]/10 rounded-3xl transition-all"></div>
                   <div className="relative">
-                    <h3 className="text-2xl font-bold mb-2 group-hover:text-[#D4AF37] transition">{project.name}</h3>
-                    <p className="text-sm text-[#D4AF37] mb-3">{project.tech}</p>
+                    <h3 className="text-2xl font-bold mb-2 group-hover:text-[#C9B037] transition">{project.name}</h3>
+                    <p className="text-sm text-[#C9B037] mb-3">{project.tech}</p>
                     <p className="text-gray-400 mb-4">{project.desc}</p>
-                    <a href="#" className="text-[#D4AF37] hover:text-[#B8860B] group-hover:mr-2 transition-all inline-block">عرض المشروع →</a>
+                    <a href="#" className="text-[#C9B037] hover:text-[#8B7355] group-hover:mr-2 transition-all inline-block">عرض المشروع →</a>
                   </div>
                 </div>
               ))}
@@ -209,16 +207,16 @@ export default function Home() {
         {/* 6. Experience Section */}
         <section className="min-h-screen px-4 py-20">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-[#B8860B] via-[#D4AF37] to-[#B8860B] bg-clip-text text-transparent">الخبرات</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-[#8B7355] via-[#C9B037] to-[#8B7355] bg-clip-text text-transparent">الخبرات</h2>
             <div className="space-y-8">
               {[
                 { year: '2023 - الآن', title: 'Full Stack Developer', company: 'Freelance', desc: 'بناء مواقع وتطبيقات ويب متكاملة للعملاء من مصر والخليج باستخدام Next.js و Three.js' },
                 { year: '2022 - 2023', title: 'Frontend Developer', company: 'شركة تقنية', desc: 'تطوير واجهات مستخدم تفاعلية وسريعة مع التركيز على تجربة المستخدم' }
               ].map((exp) => (
-                <div key={exp.title} className="bg-black/40 backdrop-blur-lg p-8 rounded-3xl border border-[#D4AF37]/20 hover:border-[#D4AF37]/60 transition-all hover:shadow-[0_0_40px_rgba(212,175,55,0.2)]">
+                <div key={exp.title} className="bg-black/40 backdrop-blur-lg p-8 rounded-3xl border border-[#C9B037]/20 hover:border-[#C9B037]/60 transition-all hover:shadow-[0_0_40px_rgba(201,176,55,0.2)]">
                   <div className="flex flex-wrap justify-between items-start mb-3">
                     <h3 className="text-2xl font-bold">{exp.title}</h3>
-                    <span className="text-[#D4AF37] bg-[#D4AF37]/10 px-4 py-1 rounded-full text-sm border border-[#D4AF37]/30">{exp.year}</span>
+                    <span className="text-[#C9B037] bg-[#C9B037]/10 px-4 py-1 rounded-full text-sm border border-[#C9B037]/30">{exp.year}</span>
                   </div>
                   <p className="text-gray-400 mb-3">{exp.company}</p>
                   <p className="text-gray-300 leading-relaxed">{exp.desc}</p>
@@ -231,14 +229,14 @@ export default function Home() {
         {/* 7. Certificates Section */}
         <section className="px-4 py-20">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-[#B8860B] via-[#D4AF37] to-[#B8860B] bg-clip-text text-transparent">الشهادات</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-[#8B7355] via-[#C9B037] to-[#8B7355] bg-clip-text text-transparent">الشهادات</h2>
             <div className="grid md:grid-cols-3 gap-6">
               {[
                 { title: 'Meta Front-End Developer', org: 'Coursera', year: '2024' },
                 { title: 'Three.js Journey', org: 'Bruno Simon', year: '2023' },
                 { title: 'Advanced React', org: 'Udemy', year: '2023' }
               ].map((cert) => (
-                <div key={cert.title} className="bg-black/40 backdrop-blur-lg p-6 rounded-2xl border border-[#D4AF37]/20 text-center hover:border-[#D4AF37]/60 transition-all hover:shadow-[0_0_30px_rgba(212,175,55,0.2)]">
+                <div key={cert.title} className="bg-black/40 backdrop-blur-lg p-6 rounded-2xl border border-[#C9B037]/20 text-center hover:border-[#C9B037]/60 transition-all hover:shadow-[0_0_30px_rgba(201,176,55,0.2)]">
                   <div className="text-4xl mb-3">🎓</div>
                   <h3 className="text-lg font-bold mb-2">{cert.title}</h3>
                   <p className="text-gray-400 text-sm">{cert.org} • {cert.year}</p>
@@ -251,16 +249,16 @@ export default function Home() {
         {/* 8. Testimonials Section */}
         <section className="min-h-screen px-4 py-20">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-[#B8860B] via-[#D4AF37] to-[#B8860B] bg-clip-text text-transparent">آراء العملاء</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-[#8B7355] via-[#C9B037] to-[#8B7355] bg-clip-text text-transparent">آراء العملاء</h2>
             <div className="grid md:grid-cols-2 gap-6">
               {[
                 { name: 'أحمد محمد', role: 'صاحب متجر', text: 'مصطفى محترف جداً، سلمني الموقع قبل المعاد والشغل فوق الممتاز' },
                 { name: 'سارة خالد', role: 'مصممة', text: 'أفضل مطور اتعاملت معاه، فهم فكرتي ونفذها أحسن ما تخيلت' }
               ].map((testimonial) => (
-                <div key={testimonial.name} className="bg-black/40 backdrop-blur-lg p-8 rounded-3xl border border-[#D4AF37]/20 hover:border-[#D4AF37]/60 transition-all hover:shadow-[0_0_40px_rgba(212,175,55,0.2)]">
+                <div key={testimonial.name} className="bg-black/40 backdrop-blur-lg p-8 rounded-3xl border border-[#C9B037]/20 hover:border-[#C9B037]/60 transition-all hover:shadow-[0_0_40px_rgba(201,176,55,0.2)]">
                   <p className="text-gray-300 mb-6 leading-relaxed text-lg">"{testimonial.text}"</p>
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#B8860B] to-[#D4AF37] flex items-center justify-center font-bold">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#8B7355] to-[#C9B037] flex items-center justify-center font-bold">
                       {testimonial.name[0]}
                     </div>
                     <div>
@@ -277,7 +275,7 @@ export default function Home() {
         {/* 9. Blog Section */}
         <section className="px-4 py-20">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-gradient-to-r from-[#B8860B] via-[#D4AF37] to-[#B8860B] bg-clip-text text-transparent">آخر المقالات</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-gradient-to-r from-[#8B7355] via-[#C9B037] to-[#8B7355] bg-clip-text text-transparent">آخر المقالات</h2>
             <p className="text-center text-gray-400 mb-16">بشارك خبرتي ومعلومات مفيدة</p>
             <div className="grid md:grid-cols-3 gap-6">
               {[
@@ -285,16 +283,16 @@ export default function Home() {
                 { title: 'Next.js 15: أهم المميزات الجديدة', date: '10 مايو 2026', read: '7 دقائق' },
                 { title: 'نصائح لتحسين أداء موقعك', date: '5 مايو 2026', read: '4 دقائق' }
               ].map((post) => (
-                <div key={post.title} className="group bg-black/40 backdrop-blur-lg rounded-3xl border border-[#D4AF37]/20 overflow-hidden hover:border-[#D4AF37]/60 transition-all hover:shadow-[0_0_40px_rgba(212,175,55,0.2)]">
-                  <div className="h-48 bg-gradient-to-br from-[#B8860B] to-[#D4AF37]"></div>
+                <div key={post.title} className="group bg-black/40 backdrop-blur-lg rounded-3xl border border-[#C9B037]/20 overflow-hidden hover:border-[#C9B037]/60 transition-all hover:shadow-[0_0_40px_rgba(201,176,55,0.2)]">
+                  <div className="h-48 bg-gradient-to-br from-[#8B7355] to-[#C9B037]"></div>
                   <div className="p-6">
                     <div className="flex gap-4 text-xs text-gray-400 mb-3">
                       <span>{post.date}</span>
                       <span>•</span>
                       <span>{post.read}</span>
                     </div>
-                    <h3 className="text-xl font-bold mb-3 group-hover:text-[#D4AF37] transition">{post.title}</h3>
-                    <a href="#" className="text-[#D4AF37] hover:text-[#B8860B]">اقرأ المزيد →</a>
+                    <h3 className="text-xl font-bold mb-3 group-hover:text-[#C9B037] transition">{post.title}</h3>
+                    <a href="#" className="text-[#C9B037] hover:text-[#8B7355]">اقرأ المزيد →</a>
                   </div>
                 </div>
               ))}
@@ -305,7 +303,7 @@ export default function Home() {
         {/* 10. FAQ Section */}
         <section className="px-4 py-20">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-[#B8860B] via-[#D4AF37] to-[#B8860B] bg-clip-text text-transparent">أسئلة شائعة</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-[#8B7355] via-[#C9B037] to-[#8B7355] bg-clip-text text-transparent">أسئلة شائعة</h2>
             <div className="space-y-4">
               {[
                 { q: 'كم مدة تنفيذ المشروع؟', a: 'حسب حجم المشروع، عادة من أسبوعين لشهر. المواقع البسيطة أسبوع، المعقدة شهر أو أكتر.' },
@@ -313,7 +311,7 @@ export default function Home() {
                 { q: 'إيه طرق الدفع المتاحة؟', a: 'تحويل بنكي، PayPal، Instapay، أو Wise. الدفع على دفعات: 50% مقدم و 50% عند التسليم.' },
                 { q: 'بتقدم دعم بعد التسليم؟', a: 'أكيد، بديك شهر دعم مجاني لأي تعديلات بسيطة أو مشاكل.' }
               ].map((item) => (
-                <div key={item.q} className="bg-black/40 backdrop-blur-lg p-6 rounded-2xl border border-[#D4AF37]/20 hover:border-[#D4AF37]/60 transition-all hover:shadow-[0_0_30px_rgba(212,175,55,0.2)]">
+                <div key={item.q} className="bg-black/40 backdrop-blur-lg p-6 rounded-2xl border border-[#C9B037]/20 hover:border-[#C9B037]/60 transition-all hover:shadow-[0_0_30px_rgba(201,176,55,0.2)]">
                   <h3 className="text-xl font-bold mb-2">{item.q}</h3>
                   <p className="text-gray-300 leading-relaxed">{item.a}</p>
                 </div>
@@ -324,12 +322,12 @@ export default function Home() {
 
         {/* 11. Contact Section */}
         <section className="min-h-screen flex items-center justify-center px-4 py-20">
-          <div className="max-w-2xl w-full relative bg-black/40 backdrop-blur-lg p-8 md:p-12 rounded-3xl border-2 border-[#D4AF37]/30 hover:border-[#D4AF37]/60 transition-all duration-500 hover:shadow-[0_0_50px_rgba(212,175,55,0.3)]">
-            <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-[#D4AF37] rounded-tl-3xl"></div>
-            <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-[#D4AF37] rounded-br-3xl"></div>
+          <div className="max-w-2xl w-full relative bg-black/40 backdrop-blur-lg p-8 md:p-12 rounded-3xl border-2 border-[#C9B037]/30 hover:border-[#C9B037]/60 transition-all duration-500 hover:shadow-[0_0_50px_rgba(201,176,55,0.3)]">
+            <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-[#C9B037] rounded-tl-3xl"></div>
+            <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-[#C9B037] rounded-br-3xl"></div>
 
             <div className="relative">
-              <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-gradient-to-r from-[#B8860B] via-[#D4AF37] to-[#B8860B] bg-clip-text text-transparent">
+              <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-gradient-to-r from-[#8B7355] via-[#C9B037] to-[#8B7355] bg-clip-text text-transparent">
                 تواصل معي
               </h2>
               <p className="text-center text-gray-400 mb-8">عندك فكرة مشروع؟ خلينا نتكلم</p>
@@ -342,7 +340,7 @@ export default function Home() {
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
                   required
                   disabled={loading}
-                  className="w-full px-6 py-4 bg-black/30 border border-[#D4AF37]/30 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-[#D4AF37] focus:shadow-[0_0_20px_rgba(212,175,55,0.2)] transition-all disabled:opacity-50"
+                  className="w-full px-6 py-4 bg-black/30 border border-[#C9B037]/30 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-[#C9B037] focus:shadow-[0_0_20px_rgba(201,176,55,0.2)] transition-all disabled:opacity-50"
                 />
                 <input
                   type="email"
@@ -351,7 +349,7 @@ export default function Home() {
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                   required
                   disabled={loading}
-                  className="w-full px-6 py-4 bg-black/30 border border-[#D4AF37]/30 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-[#D4AF37] focus:shadow-[0_0_20px_rgba(212,175,55,0.2)] transition-all disabled:opacity-50"
+                  className="w-full px-6 py-4 bg-black/30 border border-[#C9B037]/30 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-[#C9B037] focus:shadow-[0_0_20px_rgba(201,176,55,0.2)] transition-all disabled:opacity-50"
                 />
                 <textarea
                   placeholder="أخبرني عن مشروعك..."
@@ -360,18 +358,18 @@ export default function Home() {
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
                   required
                   disabled={loading}
-                  className="w-full px-6 py-4 bg-black/30 border border-[#D4AF37]/30 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-[#D4AF37] focus:shadow-[0_0_20px_rgba(212,175,55,0.2)] transition-all resize-none disabled:opacity-50"
+                  className="w-full px-6 py-4 bg-black/30 border border-[#C9B037]/30 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-[#C9B037] focus:shadow-[0_0_20px_rgba(201,176,55,0.2)] transition-all resize-none disabled:opacity-50"
                 />
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-4 bg-gradient-to-r from-[#B8860B] to-[#D4AF37] hover:from-[#9A7209] hover:to-[#B8860B] rounded-2xl text-lg font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-[0_0_30px_rgba(212,175,55,0.5)]"
+                  className="w-full py-4 bg-gradient-to-r from-[#8B7355] to-[#C9B037] hover:from-[#6B5A44] hover:to-[#A67C00] rounded-2xl text-lg font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-[0_0_30px_rgba(201,176,55,0.5)]"
                 >
                   {loading? 'بيبعت...' : 'إرسال الرسالة'}
                 </button>
 
                 {status && (
-                  <div className="text-center p-4 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/30">
+                  <div className="text-center p-4 rounded-xl bg-[#C9B037]/10 border border-[#C9B037]/30">
                     {status}
                   </div>
                 )}
@@ -381,31 +379,31 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="py-12 px-4 border-t border-[#D4AF37]/20">
+        <footer className="py-12 px-4 border-t border-[#C9B037]/20">
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-3 gap-8 mb-8 text-center md:text-right">
               <div>
-                <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-[#D4AF37] to-[#B8860B] bg-clip-text text-transparent">مصطفى محمود</h3>
+                <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-[#C9B037] to-[#8B7355] bg-clip-text text-transparent">مصطفى محمود</h3>
                 <p className="text-gray-400">مصمم ومطور مواقع ثلاثية الأبعاد</p>
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-4">روابط سريعة</h3>
                 <div className="space-y-2">
-                  <a href="#projects" className="block text-gray-400 hover:text-[#D4AF37] transition">المشاريع</a>
-                  <a href="#" className="block text-gray-400 hover:text-[#D4AF37] transition">الخدمات</a>
-                  <a href="#" className="block text-gray-400 hover:text-[#D4AF37] transition">المدونة</a>
+                  <a href="#projects" className="block text-gray-400 hover:text-[#C9B037] transition">المشاريع</a>
+                  <a href="#" className="block text-gray-400 hover:text-[#C9B037] transition">الخدمات</a>
+                  <a href="#" className="block text-gray-400 hover:text-[#C9B037] transition">المدونة</a>
                 </div>
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-4">تواصل</h3>
                 <div className="space-y-2">
-                  <a href="https://wa.me/201044907363" className="block text-gray-400 hover:text-[#D4AF37] transition">واتساب</a>
-                  <a href="#" className="block text-gray-400 hover:text-[#D4AF37] transition">LinkedIn</a>
-                  <a href="#" className="block text-gray-400 hover:text-[#D4AF37] transition">GitHub</a>
+                  <a href="https://wa.me/201044907363" className="block text-gray-400 hover:text-[#C9B037] transition">واتساب</a>
+                  <a href="#" className="block text-gray-400 hover:text-[#C9B037] transition">LinkedIn</a>
+                  <a href="#" className="block text-gray-400 hover:text-[#C9B037] transition">GitHub</a>
                 </div>
               </div>
             </div>
-            <div className="text-center pt-8 border-t border-[#D4AF37]/20">
+            <div className="text-center pt-8 border-t border-[#C9B037]/20">
               <p className="text-gray-400">© 2026 مصطفى محمود. جميع الحقوق محفوظة</p>
             </div>
           </div>

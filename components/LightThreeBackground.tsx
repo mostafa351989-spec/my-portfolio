@@ -24,7 +24,6 @@ export default function LightThreeBackground() {
       <style jsx global>{`
         *{margin:0;padding:0;box-sizing:border-box;}
         
-        /* شاشة البداية - ربع الشاشة العلوي بنفسجي */
         .intro-screen{
             position:fixed;top:0;left:0;right:0;height:25vh;z-index:9999;
             background:linear-gradient(180deg, #1a0033 0%, #2d004d 50%, #4a0080 100%);
@@ -54,7 +53,6 @@ export default function LightThreeBackground() {
             letter-spacing:4px;
         }
 
-        /* الخلفية */
         .solar-wrapper{
             width:100%;height:100vh;overflow:hidden;
             background:#000;
@@ -145,7 +143,7 @@ export default function LightThreeBackground() {
 
       {loading && (
         <div className={`intro-screen ${progress >= 100 ? 'hide' : ''}`}>
-          <div className="intro-name">AHMED</div>
+          <div className="intro-name">مصطفى</div>
           <div className="intro-progress">
             <div className="intro-bar" style={{width: `${progress}%`}}></div>
           </div>

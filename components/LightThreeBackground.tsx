@@ -1,80 +1,119 @@
 'use client';
+import { useEffect, useState } from 'react';
 
 export default function LightThreeBackground() {
+  const [rotation, setRotation] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRotation(prev => prev + 0.2);
+    }, 50);
+    return () => clearInterval(interval);
+  }, []);
+
+  const planets = [
+    { size: 12, color: '#8C8C8C', orbit: 140, speed: 1.6, angle: 45 }, // عطارد
+    { size: 18, color: '#E6C588', orbit: 170, speed: 1.2, angle: 30 }, // الزهرة 
+    { size: 16, color: '#CD5C5C', orbit: 200, speed: 1, angle: 80 }, // المريخ
+    { size: 32, color: '#DAA520', orbit: 240, speed: 0.7, angle: 120 }, // المشتري
+    { size: 28, color: '#F4E4BC', orbit: 290, speed: 0.5, angle: 220, ring: true }, // زحل
+    { size: 22, color: '#4FD0E7', orbit: 340, speed: 0.3, angle: 260 }, // أورانوس
+    { size: 22, color: '#4B70DD', orbit: 390, speed: 0.2, angle: 290 }, // نبتون
+    { size: 10, color: '#aaaaaa', orbit: 430, speed: 0.15, angle: 310 } // القمر
+  ];
+
   return (
-    <div className="fixed top-0 left-0 w-full h-full z-0 overflow-hidden bg-black">
+    <div className="fixed inset-0 z-0 overflow-hidden bg-black">
       {/* نجوم */}
-      <div className="absolute inset-0" style={{
-        backgroundImage: 'radial-gradient(2px 2px at 20px 30px, white, transparent), radial-gradient(2px 2px at 60px 70px, white, transparent), radial-gradient(1px 1px at 50px 50px, white, transparent), radial-gradient(1px 1px at 130px 80px, white, transparent), radial-gradient(2px 2px at 90px 10px, white, transparent)',
-        backgroundSize: '200px 200px',
-        opacity: 0.3
+      <div className="absolute inset-0 opacity-40" style={{
+        backgroundImage: `radial-gradient(1px 1px at 25px 5px, white, transparent),
+                         radial-gradient(1px 1px at 50px 25px, white, transparent),
+                         radial-gradient(2px 2px at 125px 20px, white, transparent),
+                         radial-gradient(1px 1px at 50px 75px, white, transparent),
+                         radial-gradient(2px 2px at 15px 125px, white, transparent),
+                         radial-gradient(1px 1px at 110px 80px, white, transparent)`,
+        backgroundSize: '200px 200px'
       }} />
 
-      {/* المجرة - SVG مايل */}
-      <svg 
-        className="absolute top-1/2 left-1/2 w-[1200px] h-[1200px] -translate-x-1/2 -translate-y-1/2"
-        style={{ transform: 'translate(-50%, -50%) rotateX(60deg)' }}
-        viewBox="0 0 1200 1200"
-      >
-        <defs>
-          <radialGradient id="sunGlow" cx="50%" cy="50%">
-            <stop offset="0%" stopColor="#FFA500" stopOpacity="1" />
-            <stop offset="40%" stopColor="#FF8C00" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="#FF4500" stopOpacity="0" />
-          </radialGradient>
-          <radialGradient id="earthGlow" cx="50%" cy="50%">
-            <stop offset="0%" stopColor="#4a7a9d" stopOpacity="1" />
-            <stop offset="60%" stopColor="#2a5a7d" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="#1a3a5d" stopOpacity="0" />
-          </radialGradient>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-            <feMerge>
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-        </defs>
+      {/* توهج أصفر من فوق */}
+      <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-yellow-900/30 via-orange-900/10 to-transparent" />
 
+      {/* المجرة - container مايل */}
+      <div 
+        className="absolute top-1/2 left-1/2 w-[900px] h-[900px]"
+        style={{ 
+          transform: 'translate(-50%, -50%) perspective(1000px) rotateX(65deg)',
+          transformStyle: 'preserve-3d'
+        }}
+      >
         {/* الحلقات الذهبية */}
-        {[180, 220, 260, 320, 380, 440, 500].map((r, i) => (
-          <circle 
+        {[140, 170, 200, 240, 290, 340, 390, 430].map((r, i) => (
+          <div
             key={i}
-            cx="600" 
-            cy="600" 
-            r={r} 
-            fill="none" 
-            stroke="#D4AF37" 
-            strokeWidth="1.5" 
-            opacity="0.4"
+            className="absolute top-1/2 left-1/2 rounded-full border border-yellow-600/30"
+            style={{
+              width: r * 2,
+              height: r * 2,
+              transform: 'translate(-50%, -50%)',
+              boxShadow: '0 0 20px rgba(212, 175, 55, 0.1)'
+            }}
           />
         ))}
 
-        {/* الأرض في النص */}
-        <circle cx="600" cy="600" r="80" fill="url(#earthGlow)" filter="url(#glow)" />
-        <circle cx="600" cy="600" r="65" fill="#4a7a9d" />
-        <circle cx="600" cy="600" r="68" fill="none" stroke="#6a9abd" strokeWidth="2" opacity="0.6" />
-
         {/* الشمس فوق */}
-        <circle cx="600" cy="200" r="40" fill="url(#sunGlow)" filter="url(#glow)" />
-        <circle cx="600" cy="200" r="25" fill="#FFA500" />
+        <div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          style={{ transform: `translate(-50%, calc(-50% - 320px)) rotateX(-65deg)` }}
+        >
+          <div className="w-10 h-10 rounded-full bg-orange-400 shadow-[0_0_40px_10px_rgba(255,165,0,0.8)]" />
+        </div>
 
-        {/* الكواكب - ألوان بس */}
-        <circle cx="720" cy="350" r="12" fill="#8C8C8C" /> {/* عطارد */}
-        <circle cx="480" cy="340" r="18" fill="#E6C588" /> {/* الزهرة */}
-        <circle cx="780" cy="450" r="16" fill="#CD5C5C" /> {/* المريخ */}
-        <circle cx="400" cy="480" r="30" fill="#DAA520" /> {/* المشتري */}
-        <circle cx="850" cy="650" r="25" fill="#F4E4BC" /> {/* زحل */}
-        <ellipse cx="850" cy="650" rx="45" ry="15" fill="none" stroke="#DDD3B3" strokeWidth="3" opacity="0.7" />
-        <circle cx="350" cy="700" r="20" fill="#4FD0E7" /> {/* أورانوس */}
-        <circle cx="900" cy="750" r="20" fill="#4B70DD" /> {/* نبتون */}
-        
-        {/* القمر */}
-        <circle cx="520" cy="580" r="10" fill="#aaaaaa" />
-      </svg>
+        {/* الأرض في النص */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div 
+            className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-blue-800 shadow-[0_0_60px_15px_rgba(59,130,246,0.6)]"
+            style={{ transform: 'rotateX(-65deg)' }}
+          />
+        </div>
 
-      {/* توهج أصفر من فوق */}
-      <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-yellow-900/20 to-transparent" />
+        {/* الكواكب */}
+        {planets.map((planet, i) => {
+          const currentAngle = (rotation * planet.speed + planet.angle) % 360;
+          const x = Math.cos(currentAngle * Math.PI / 180) * planet.orbit;
+          const y = Math.sin(currentAngle * Math.PI / 180) * planet.orbit;
+          
+          return (
+            <div
+              key={i}
+              className="absolute top-1/2 left-1/2"
+              style={{
+                transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`
+              }}
+            >
+              <div 
+                className="rounded-full"
+                style={{
+                  width: planet.size,
+                  height: planet.size,
+                  backgroundColor: planet.color,
+                  boxShadow: `0 0 20px ${planet.color}80`,
+                  transform: 'rotateX(-65deg)'
+                }}
+              />
+              {planet.ring && (
+                <div 
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-yellow-200/60"
+                  style={{
+                    width: planet.size * 2.5,
+                    height: planet.size * 0.8,
+                    transform: 'translate(-50%, -50%) rotateX(-65deg) rotateZ(20deg)'
+                  }}
+                />
+              )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

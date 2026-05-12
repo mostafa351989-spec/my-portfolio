@@ -24,34 +24,37 @@ export default function LightThreeBackground() {
       <style jsx global>{`
         *{margin:0;padding:0;box-sizing:border-box;}
         
+        /* شاشة البداية - ربع الشاشة العلوي بنفسجي */
         .intro-screen{
-            position:fixed;inset:0;z-index:9999;
-            background:#000;
+            position:fixed;top:0;left:0;right:0;height:25vh;z-index:9999;
+            background:linear-gradient(180deg, #1a0033 0%, #2d004d 50%, #4a0080 100%);
             display:flex;flex-direction:column;justify-content:center;align-items:center;
-            font-family:Arial,sans-serif;
+            font-family:'Arial',sans-serif;
             transition:opacity 0.5s ease-out;
+            box-shadow:0 10px 50px rgba(138,43,226,0.5);
         }
         .intro-screen.hide{opacity:0;pointer-events:none;}
         
         .intro-name{
-            font-size:48px;color:#D4AF37;letter-spacing:8px;
-            margin-bottom:40px;text-transform:uppercase;
-            text-shadow:0 0 20px rgba(212,175,55,0.5);
+            font-size:36px;color:#C084FC;letter-spacing:10px;
+            margin-bottom:20px;text-transform:uppercase;
+            text-shadow:0 0 30px rgba(192,132,252,0.8), 0 0 60px rgba(168,85,247,0.5);
         }
         .intro-progress{
-            width:300px;height:2px;background:rgba(212,175,55,0.2);
-            position:relative;overflow:hidden;
+            width:280px;height:3px;background:rgba(192,132,252,0.2);
+            position:relative;overflow:hidden;border-radius:2px;
         }
         .intro-bar{
-            height:100%;background:#D4AF37;
-            box-shadow:0 0 10px #D4AF37;
+            height:100%;background:#A855F7;
+            box-shadow:0 0 20px #A855F7, 0 0 40px #9333EA;
             transition:width 0.1s linear;
         }
         .intro-percent{
-            color:#D4AF37;font-size:14px;margin-top:15px;
-            letter-spacing:3px;
+            color:#C084FC;font-size:12px;margin-top:12px;
+            letter-spacing:4px;
         }
 
+        /* الخلفية */
         .solar-wrapper{
             width:100%;height:100vh;overflow:hidden;
             background:#000;
@@ -135,7 +138,8 @@ export default function LightThreeBackground() {
 
         @media (max-width:768px){
           .solar-system{transform:rotateX(70deg) scale(0.35);}
-          .intro-name{font-size:32px;letter-spacing:4px;}
+          .intro-name{font-size:24px;letter-spacing:6px;}
+          .intro-screen{height:30vh;}
         }
       `}</style>
 

@@ -10,8 +10,8 @@ export default function LightThreeBackground() {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 0, 12);
-    camera.lookAt(0, 0, 0);
+    camera.position.set(0, 2, 10);
+    camera.lookAt(0, -0.5, 0);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -25,58 +25,64 @@ export default function LightThreeBackground() {
     };
     document.addEventListener('mousemove', handleMouseMove);
 
-    // خلفية السديم والنجوم
+    // الخلفية - نجوم + سديم
     const starsGeometry = new THREE.BufferGeometry();
-    const starsCount = 12000;
+    const starsCount = 15000;
     const starsPos = new Float32Array(starsCount * 3);
     const starsColors = new Float32Array(starsCount * 3);
     
     for (let i = 0; i < starsCount * 3; i += 3) {
-      starsPos[i] = (Math.random() - 0.5) * 100;
-      starsPos[i + 1] = (Math.random() - 0.5) * 100;
-      starsPos[i + 2] = (Math.random() - 0.5) * 100;
+      starsPos[i] = (Math.random() - 0.5) * 120;
+      starsPos[i + 1] = (Math.random() - 0.5) * 120;
+      starsPos[i + 2] = (Math.random() - 0.5) * 120;
       
-      const color = Math.random();
-      if (color < 0.6) {
+      const c = Math.random();
+      if (c < 0.7) {
         starsColors[i] = 1; starsColors[i+1] = 1; starsColors[i+2] = 1;
-      } else if (color < 0.8) {
+      } else if (c < 0.85) {
         starsColors[i] = 0.6; starsColors[i+1] = 0.7; starsColors[i+2] = 1;
       } else {
-        starsColors[i] = 1; starsColors[i+1] = 0.6; starsColors[i+2] = 0.4;
+        starsColors[i] = 1; starsColors[i+1] = 0.8; starsColors[i+2] = 0.6;
       }
     }
     
     starsGeometry.setAttribute('position', new THREE.BufferAttribute(starsPos, 3));
     starsGeometry.setAttribute('color', new THREE.BufferAttribute(starsColors, 3));
-    const starsMaterial = new THREE.PointsMaterial({ size: 0.15, vertexColors: true, transparent: true, opacity: 0.9 });
+    const starsMaterial = new THREE.PointsMaterial({ size: 0.12, vertexColors: true, transparent: true, opacity: 0.8 });
     const stars = new THREE.Points(starsGeometry, starsMaterial);
     scene.add(stars);
 
     const textureLoader = new THREE.TextureLoader();
 
-    // الأرض - خريطة قديمة ستايل
-    const earthGroup = new THREE.Group();
-    scene.add(earthGroup);
+    // جروب السيستم كله - مايل بزاوية زي الصورة
+    const solarSystem = new THREE.Group();
+    solarSystem.rotation.x = 0.5; // الميلان المهم
+    solarSystem.position.y = -0.5;
+    scene.add(solarSystem);
 
-    const earthGeometry = new THREE.SphereGeometry(3, 128, 128);
+    // الأرض في النص
+    const earthGroup = new THREE.Group();
+    solarSystem.add(earthGroup);
+
+    const earthGeometry = new THREE.SphereGeometry(2.5, 128, 128);
     const earthTexture = textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg');
     
     const earthMaterial = new THREE.MeshStandardMaterial({
       map: earthTexture,
-      metalness: 0.1,
-      roughness: 0.8,
-      emissive: 0x0a1a3a,
-      emissiveIntensity: 0.8
+      metalness: 0.2,
+      roughness: 0.7,
+      emissive: 0x0a2a5a,
+      emissiveIntensity: 1.5
     });
 
     const earth = new THREE.Mesh(earthGeometry, earthMaterial);
     earthGroup.add(earth);
 
-    // هالة زرقاء
-    const glowGeometry = new THREE.SphereGeometry(3.2, 64, 64);
+    // هالة الأرض
+    const glowGeometry = new THREE.SphereGeometry(2.75, 64, 64);
     const glowMaterial = new THREE.ShaderMaterial({
       vertexShader: `varying vec3 vNormal; void main() { vNormal = normalize( normalMatrix * normal ); gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 ); }`,
-      fragmentShader: `varying vec3 vNormal; void main() { float intensity = pow( 0.5 - dot( vNormal, vec3( 0, 0, 1.0 ) ), 2.0 ); gl_FragColor = vec4( 0.2, 0.5, 1.0, 1.0 ) * intensity; }`,
+      fragmentShader: `varying vec3 vNormal; void main() { float intensity = pow( 0.4 - dot( vNormal, vec3( 0, 0, 1.0 ) ), 1.8 ); gl_FragColor = vec4( 0.2, 0.5, 1.0, 1.0 ) * intensity; }`,
       side: THREE.BackSide,
       blending: THREE.AdditiveBlending,
       transparent: true
@@ -84,43 +90,34 @@ export default function LightThreeBackground() {
     const glow = new THREE.Mesh(glowGeometry, glowMaterial);
     earthGroup.add(glow);
 
-    // بوصلة ذهبية على الأرض
-    const compassGeometry = new THREE.RingGeometry(0.1, 0.3, 4);
-    const compassMaterial = new THREE.MeshBasicMaterial({ color: 0xD4AF37, side: THREE.DoubleSide });
-    const compass = new THREE.Mesh(compassGeometry, compassMaterial);
-    compass.position.z = 3.01;
-    compass.rotation.z = Math.PI / 4;
-    earthGroup.add(compass);
-
-    // الشمس فوق
-    const sunGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-    const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xFFA500 });
+    // الشمس فوق - زي الصورة بالظبط
+    const sunGeometry = new THREE.SphereGeometry(0.6, 32, 32);
+    const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xFF8C00 });
     const sun = new THREE.Mesh(sunGeometry, sunMaterial);
-    sun.position.set(0, 8, 0);
+    sun.position.set(0, 6.5, 0);
     
-    const sunGlowGeometry = new THREE.SphereGeometry(0.8, 32, 32);
+    const sunGlowGeometry = new THREE.SphereGeometry(1, 32, 32);
     const sunGlowMaterial = new THREE.ShaderMaterial({
       vertexShader: `varying vec3 vNormal; void main() { vNormal = normalize( normalMatrix * normal ); gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 ); }`,
-      fragmentShader: `varying vec3 vNormal; void main() { float intensity = pow( 0.6 - dot( vNormal, vec3( 0, 0, 1.0 ) ), 2.0 ); gl_FragColor = vec4( 1.0, 0.6, 0.0, 1.0 ) * intensity; }`,
+      fragmentShader: `varying vec3 vNormal; void main() { float intensity = pow( 0.5 - dot( vNormal, vec3( 0, 0, 1.0 ) ), 1.5 ); gl_FragColor = vec4( 1.0, 0.6, 0.0, 1.0 ) * intensity; }`,
       side: THREE.BackSide,
       blending: THREE.AdditiveBlending,
       transparent: true
     });
     const sunGlow = new THREE.Mesh(sunGlowGeometry, sunGlowMaterial);
     sun.add(sunGlow);
-    scene.add(sun);
+    solarSystem.add(sun);
 
-    // الكواكب - مرصوصة زي الصورة بالظبط
+    // الكواكب - أماكنها بالظبط زي الصورة
     const planets: any[] = [];
     const planetData = [
-      { name: 'MERCURY', url: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/mercury_1024.jpg', size: 0.25, distance: 4.5, angle: Math.PI * 0.3, color: 0x8C8C8C },
-      { name: 'VENUS', url: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/venus_1024.jpg', size: 0.32, distance: 4.8, angle: Math.PI * 0.1, color: 0xE6C588 },
-      { name: 'MARS', url: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/mars_1024.jpg', size: 0.28, distance: 5.2, angle: Math.PI * 0.5, color: 0xCD5C5C },
-      { name: 'JUPITER', url: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/jupiter_1024.jpg', size: 0.6, distance: 6, angle: Math.PI * 0.75, color: 0xDAA520 },
-      { name: 'SATURN', url: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/saturn_1024.jpg', size: 0.5, distance: 7, angle: Math.PI * 1.4, hasRing: true, color: 0xF4E4BC },
-      { name: 'URANUS', url: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/uranus_1024.jpg', size: 0.38, distance: 8, angle: Math.PI * 1.6, color: 0x4FD0E7 },
-      { name: 'NEPTUNE', url: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/neptune_1024.jpg', size: 0.38, distance: 9, angle: Math.PI * 1.8, color: 0x4B70DD },
-      { name: 'PLUTO', url: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/mercury_1024.jpg', size: 0.2, distance: 10, angle: Math.PI * 1.9, color: 0x8B7D6B }
+      { name: 'MERCURY', url: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/mercury_1024.jpg', size: 0.28, distance: 3.5, angle: Math.PI * 0.25, color: 0x8C8C8C },
+      { name: 'VENUS', url: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/venus_1024.jpg', size: 0.35, distance: 4, angle: Math.PI * 0.1, color: 0xE6C588 },
+      { name: 'MARS', url: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/mars_1024.jpg', size: 0.32, distance: 4.5, angle: Math.PI * 0.5, color: 0xCD5C5C },
+      { name: 'JUPITER', url: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/jupiter_1024.jpg', size: 0.7, distance: 5.2, angle: Math.PI * 0.75, color: 0xDAA520 },
+      { name: 'SATURN', url: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/saturn_1024.jpg', size: 0.6, distance: 6, angle: Math.PI * 1.3, hasRing: true, color: 0xF4E4BC },
+      { name: 'URANUS', url: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/uranus_1024.jpg', size: 0.45, distance: 6.8, angle: Math.PI * 1.55, color: 0x4FD0E7 },
+      { name: 'NEPTUNE', url: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/neptune_1024.jpg', size: 0.45, distance: 7.5, angle: Math.PI * 1.75, color: 0x4B70DD }
     ];
 
     planetData.forEach((data) => {
@@ -129,14 +126,14 @@ export default function LightThreeBackground() {
       const material = new THREE.MeshStandardMaterial({
         map: planetTexture,
         emissive: new THREE.Color(data.color),
-        emissiveIntensity: 0.9,
-        metalness: 0.2,
-        roughness: 0.7
+        emissiveIntensity: 1.2,
+        metalness: 0.1,
+        roughness: 0.8
       });
       const planet = new THREE.Mesh(geometry, material);
 
       if (data.hasRing) {
-        const ringGeometry = new THREE.RingGeometry(data.size * 1.3, data.size * 2.2, 64);
+        const ringGeometry = new THREE.RingGeometry(data.size * 1.4, data.size * 2.3, 64);
         const ringMaterial = new THREE.MeshBasicMaterial({
           color: 0xDDD3B3,
           side: THREE.DoubleSide,
@@ -144,7 +141,7 @@ export default function LightThreeBackground() {
           opacity: 0.9
         });
         const ring = new THREE.Mesh(ringGeometry, ringMaterial);
-        ring.rotation.x = Math.PI / 2.8;
+        ring.rotation.x = Math.PI / 2.5;
         planet.add(ring);
       }
 
@@ -152,7 +149,7 @@ export default function LightThreeBackground() {
       orbit.add(planet);
       planet.position.x = data.distance;
       
-      // حلقات ذهبية زي الصورة
+      // حلقات ذهبية
       const orbitGeometry = new THREE.BufferGeometry();
       const orbitPoints = [];
       for (let j = 0; j <= 128; j++) {
@@ -163,60 +160,60 @@ export default function LightThreeBackground() {
       const orbitMaterial = new THREE.LineBasicMaterial({
         color: 0xD4AF37,
         transparent: true,
-        opacity: 0.6
+        opacity: 0.5
       });
       const orbitLine = new THREE.Line(orbitGeometry, orbitMaterial);
-      scene.add(orbitLine);
+      solarSystem.add(orbitLine);
 
       orbit.rotation.y = data.angle;
-      scene.add(orbit);
-      planets.push({ orbit, planet, speed: 0.003 });
+      solarSystem.add(orbit);
+      planets.push({ orbit, planet, speed: 0.002 });
     });
 
     // القمر
-    const moonGeometry = new THREE.SphereGeometry(0.22, 32, 32);
+    const moonGeometry = new THREE.SphereGeometry(0.25, 32, 32);
     const moonTexture = textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/moon_1024.jpg');
     const moonMaterial = new THREE.MeshStandardMaterial({
       map: moonTexture,
-      emissive: 0x666666,
-      emissiveIntensity: 1
+      emissive: 0x888888,
+      emissiveIntensity: 1.2
     });
     const moon = new THREE.Mesh(moonGeometry, moonMaterial);
     const moonOrbit = new THREE.Object3D();
     moonOrbit.add(moon);
-    moon.position.x = 3.8;
-    moonOrbit.rotation.y = Math.PI * 0.65;
-    scene.add(moonOrbit);
-    planets.push({ orbit: moonOrbit, planet: moon, speed: 0.01 });
+    moon.position.x = 3.2;
+    moonOrbit.rotation.y = Math.PI * 0.6;
+    solarSystem.add(moonOrbit);
+    planets.push({ orbit: moonOrbit, planet: moon, speed: 0.008 });
 
     // الإضاءة
-    const ambientLight = new THREE.AmbientLight(0x202040, 3);
+    const ambientLight = new THREE.AmbientLight(0x303050, 4);
     scene.add(ambientLight);
 
-    const sunLight = new THREE.DirectionalLight(0xFFD700, 10);
-    sunLight.position.set(0, 15, 5);
+    const sunLight = new THREE.DirectionalLight(0xFFD700, 12);
+    sunLight.position.set(0, 20, 5);
     scene.add(sunLight);
 
-    const centerLight = new THREE.PointLight(0x4a7fff, 4, 50);
+    const centerLight = new THREE.PointLight(0x4a7fff, 5, 50);
     centerLight.position.set(0, 0, 0);
-    scene.add(centerLight);
+    solarSystem.add(centerLight);
 
     const animate = () => {
       requestAnimationFrame(animate);
 
-      camera.position.x += (mouseX * 1 - camera.position.x) * 0.02;
-      camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.02;
-      camera.lookAt(0, 0, 0);
+      camera.position.x += (mouseX * 1.5 - camera.position.x) * 0.02;
+      camera.position.y += (-mouseY * 0.5 + 2 - camera.position.y) * 0.02;
+      camera.lookAt(0, -0.5, 0);
 
-      earth.rotation.y += 0.001;
-      glow.rotation.y += 0.001;
+      earth.rotation.y += 0.002;
+      glow.rotation.y += 0.002;
 
       planets.forEach((p) => {
         p.orbit.rotation.y += p.speed;
-        p.planet.rotation.y += p.speed * 2;
+        p.planet.rotation.y += p.speed * 3;
       });
 
-      sun.rotation.y += 0.005;
+      sun.rotation.y += 0.003;
       stars.rotation.y += 0.00001;
 
       renderer.render(scene, camera);

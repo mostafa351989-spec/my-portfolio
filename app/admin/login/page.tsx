@@ -1,37 +1,52 @@
 'use client'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
+
+  const handleLogin = async () => {
+    setLoading(true)
+    setError('')
     const res = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password }),
     })
-    if (res.ok) window.location.href = '/admin'
-    else setError('الباسورد غلط')
+    
+    if (res.ok) {
+      router.push('/admin') // ← المهم دي
+      router.refresh() // ← ودي عشان يعمل check للـ cookie
+    } else {
+      setError('الباسورد غلط')
+    }
+    setLoading(false)
   }
 
   return (
-    <div style={{display:'flex',minHeight:'100vh',alignItems:'center',justifyContent:'center',background:'#0a0a0a',color:'#fff'}}>
-      <form onSubmit={handleLogin} style={{display:'flex',flexDirection:'column',gap:'16px',width:'320px'}}>
-        <h1 style={{fontSize:'24px',fontWeight:'bold'}}>Admin Login</h1>
-        <input 
-          type="password" 
+    <div className="min-h-screen bg-black flex items-center justify-center p-4">
+      <div className="w-full max-w-sm">
+        <h1 className="text-white text-3xl mb-8 text-center">Admin Login</h1>
+        <input
+          type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
           placeholder="Password"
-          style={{padding:'12px',background:'#111',border:'1px solid #333',color:'#fff',borderRadius:'6px'}}
+          className="w-full p-3 mb-4 bg-zinc-900 text-white rounded border border-zinc-800"
         />
-        <button type="submit" style={{padding:'12px',background:'#fff',color:'#000',border:'none',borderRadius:'6px',fontWeight:'bold'}}>
-          Login
+        <button
+          onClick={handleLogin}
+          disabled={loading}
+          className="w-full p-3 bg-white text-black rounded font-bold disabled:opacity-50"
+        >
+          {loading ? 'Loading...' : 'Login'}
         </button>
-        {error && <p style={{color:'#ff5555'}}>{error}</p>}
-      </form>
+        {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
+      </div>
     </div>
   )
 }

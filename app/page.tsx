@@ -382,7 +382,14 @@ export default function Home() {
             </div>
           </section>
         </div>
-      </main>
+        {/* Admin Dashboard Button */}
+  <a 
+    href="/admin" 
+    className="fixed bottom-6 left-6 bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-6 rounded-lg shadow-lg transition-all duration-300 z-50"
+  >
+    ⚙️ لوحة التحكم
+  </a>
+</main>
     </>
   );
 }

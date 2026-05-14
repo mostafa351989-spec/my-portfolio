@@ -3,29 +3,29 @@ import type { NextRequest } from 'next/server'
 import { jwtVerify } from 'jose'
 
 export async function middleware(request: NextRequest) {
-  // 1. سيب صفحة اللوجين والـ API يعدوا عادي
-  if (request.nextUrl.pathname === '/admin/login' || 
-      request.nextUrl.pathname.startsWith('/api/')) {
+  const { pathname } = request.nextUrl
+
+  // 1. استثني صفحة اللوجين والـ API
+  if (pathname === '/admin/login' || pathname.startsWith('/api/auth/')) {
     return NextResponse.next()
   }
 
-  // 2. أي حاجة جوه /admin لازم نتأكد منها
-  if (request.nextUrl.pathname.startsWith('/admin')) {
+  // 2. أي مسار تحت /admin لازم توكن
+  if (pathname === '/admin' || pathname.startsWith('/admin/')) {
     const token = request.cookies.get('admin_token')?.value
 
-    // لو مفيش توكن، ارميه على اللوجين
+    // مفيش توكن = ارميه على اللوجين فوراً
     if (!token) {
       return NextResponse.redirect(new URL('/admin/login', request.url))
     }
 
+    // في توكن = اتأكد انه سليم
     try {
-      // لازم الـ secret يكون نفس اللي في API بالظبط
-      const hash = process.env.ADMIN_PASSWORD_HASH!
-      const secret = new TextEncoder().encode(hash)
-      await jwtVerify(token, secret) // لو فشل هيرمي error
-      return NextResponse.next() // لو نجح كمل عادي
-    } catch (err) {
-      // لو التوكن بايظ او منتهي، امسحه وارجع للوجين
+      const secret = new TextEncoder().encode(process.env.ADMIN_PASSWORD_HASH!)
+      await jwtVerify(token, secret)
+      return NextResponse.next() // سليم، كمل
+    } catch (error) {
+      // بايظ او منتهي، امسحه وارجع للوجين
       const response = NextResponse.redirect(new URL('/admin/login', request.url))
       response.cookies.delete('admin_token')
       return response
@@ -35,6 +35,7 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next()
 }
 
+// ده اللي بيخلي الـ middleware يشتغل على /admin وكل اللي جواه
 export const config = {
-  matcher: ['/admin/:path*', '/api/auth/:path*'],
+  matcher: ['/admin', '/admin/:path*'],
 }

@@ -4,28 +4,35 @@ import { jwtVerify } from 'jose'
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
+  
+  console.log('[MIDDLEWARE] Path:', pathname)
+  console.log('[MIDDLEWARE] ENV exists:', !!process.env.ADMIN_PASSWORD_HASH)
 
-  // 1. استثني صفحة اللوجين والـ API
   if (pathname === '/admin/login' || pathname.startsWith('/api/auth/')) {
+    console.log('[MIDDLEWARE] Skipping login/api')
     return NextResponse.next()
   }
 
-  // 2. أي مسار تحت /admin لازم توكن
   if (pathname === '/admin' || pathname.startsWith('/admin/')) {
     const token = request.cookies.get('admin_token')?.value
-
-    // مفيش توكن = ارميه على اللوجين فوراً
+    console.log('[MIDDLEWARE] Token found:', !!token)
+    
     if (!token) {
+      console.log('[MIDDLEWARE] No token -> Redirect to login')
       return NextResponse.redirect(new URL('/admin/login', request.url))
     }
 
-    // في توكن = اتأكد انه سليم
     try {
-      const secret = new TextEncoder().encode(process.env.ADMIN_PASSWORD_HASH!)
-      await jwtVerify(token, secret)
-      return NextResponse.next() // سليم، كمل
+      const secret = process.env.ADMIN_PASSWORD_HASH
+      if (!secret) {
+        console.log('[MIDDLEWARE] ERROR: ADMIN_PASSWORD_HASH missing')
+        throw new Error('ENV missing')
+      }
+      await jwtVerify(token, new TextEncoder().encode(secret))
+      console.log('[MIDDLEWARE] Token valid -> Allow')
+      return NextResponse.next()
     } catch (error) {
-      // بايظ او منتهي، امسحه وارجع للوجين
+      console.log('[MIDDLEWARE] Token invalid:', error.message)
       const response = NextResponse.redirect(new URL('/admin/login', request.url))
       response.cookies.delete('admin_token')
       return response
@@ -35,7 +42,6 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next()
 }
 
-// ده اللي بيخلي الـ middleware يشتغل على /admin وكل اللي جواه
 export const config = {
   matcher: ['/admin', '/admin/:path*'],
 }

@@ -32,7 +32,7 @@ export async function middleware(request: NextRequest) {
       console.log('[MIDDLEWARE] Token valid -> Allow')
       return NextResponse.next()
     } catch (error) {
-      console.log('[MIDDLEWARE] Token invalid:', error.message)
+      console.log('[MIDDLEWARE] Token invalid:', (error as Error).message)
       const response = NextResponse.redirect(new URL('/admin/login', request.url))
       response.cookies.delete('admin_token')
       return response

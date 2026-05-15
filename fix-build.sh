@@ -1,3 +1,11 @@
+#!/bin/bash
+echo "🔧 بنصلح الـ Build Errors..."
+
+# 1. احذف مجلد pages القديم لو موجود - هو اللي عامل Duplicate
+rm -rf pages/
+
+# 2. صلح app/admin/profile/page.tsx - TypeScript Error
+cat > app/admin/profile/page.tsx << 'TSX'
 import { MongoClient } from 'mongodb';
 
 type Profile = {
@@ -31,3 +39,21 @@ export default async function ProfilePage() {
     </div>
   )
 }
+TSX
+
+# 3. نعمل API للبروفايل
+mkdir -p app/api/profile
+cat > app/api/profile/route.ts << 'TS'
+import { NextRequest, NextResponse } from 'next/server';
+import { MongoClient } from 'mongodb';
+
+export async function POST(req: NextRequest) {
+  const data = Object.fromEntries(await req.formData());
+  const client = await MongoClient.connect(process.env.MONGODB_URI!);
+  await client.db().collection('profile').updateOne({}, { $set: data }, { upsert: true });
+  client.close();
+  return NextResponse.redirect(new URL('/admin/profile', req.url));
+}
+TS
+
+echo "✅ اتصلح. اعمل push دلوقتي"

@@ -1,12 +1,11 @@
 import { MongoClient } from 'mongodb';
 import Link from 'next/link';
-import { ObjectId } from 'mongodb';
 
 async function getProjects() {
   const client = await MongoClient.connect(process.env.MONGODB_URI!);
   const projects = await client.db().collection('projects').find().sort({createdAt:-1}).toArray();
   client.close();
-  return projects;
+  return projects.map(p => ({...p, _id: p._id.toString()}));
 }
 
 export default async function ProjectsPage() {
@@ -28,7 +27,7 @@ export default async function ProjectsPage() {
                 <div className="text-sm text-zinc-400">{p.tech?.join(', ')}</div>
               </div>
               <div className="flex gap-3">
-                <Link href={`/admin/projects/${p._id}/edit`} className="text-blue-400 text-sm">تعديل</Link>
+                <a href={`/admin/projects/${p._id}/edit`} className="text-blue-400 text-sm">تعديل</a>
                 <form action={`/api/projects/${p._id}`} method="POST">
                   <input type="hidden" name="_method" value="DELETE" />
                   <button className="text-red-400 text-sm">حذف</button>

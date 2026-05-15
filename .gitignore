@@ -1,7 +1,2 @@
-/node_modules
-/.next
-/.vercel
-.env.local
-.DS_Store
-.vercel
-.env*.local
+pages/ deleted
+pages/

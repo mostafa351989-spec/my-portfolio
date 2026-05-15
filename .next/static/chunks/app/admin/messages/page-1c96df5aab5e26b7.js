@@ -1,9 +1,0 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[439],{416:function(e,r,t){Promise.resolve().then(t.bind(t,5688))},5688:function(e,r,t){"use strict";t.r(r),t.d(r,{default:function(){return AdminMessages}});var n=t(7437),s=t(2265);function AdminMessages(){let[e,r]=(0,s.useState)([]);return(0,s.useEffect)(()=>{fetch("/api/messages").then(e=>e.json()).then(r)},[]),(0,n.jsxs)("div",{className:"p-6 text-white",children:[(0,n.jsx)("h1",{className:"text-2xl font-bold mb-4",children:"الرسائل"}),(0,n.jsx)("ul",{children:e.map(e=>(0,n.jsxs)("li",{className:"border-b py-2",children:[(0,n.jsx)("strong",{children:e.email}),(0,n.jsx)("p",{children:e.message})]},e._id))})]})}},622:function(e,r,t){"use strict";/**
- * @license React
- * react-jsx-runtime.production.min.js
- *
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */var n=t(2265),s=Symbol.for("react.element"),o=Symbol.for("react.fragment"),i=Object.prototype.hasOwnProperty,c=n.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,l={key:!0,ref:!0,__self:!0,__source:!0};function q(e,r,t){var n,o={},a=null,f=null;for(n in void 0!==t&&(a=""+t),void 0!==r.key&&(a=""+r.key),void 0!==r.ref&&(f=r.ref),r)i.call(r,n)&&!l.hasOwnProperty(n)&&(o[n]=r[n]);if(e&&e.defaultProps)for(n in r=e.defaultProps)void 0===o[n]&&(o[n]=r[n]);return{$$typeof:s,type:e,key:a,ref:f,props:o,_owner:c.current}}r.Fragment=o,r.jsx=q,r.jsxs=q},7437:function(e,r,t){"use strict";e.exports=t(622)}},function(e){e.O(0,[971,472,744],function(){return e(e.s=416)}),_N_E=e.O()}]);

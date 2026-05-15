@@ -30,9 +30,8 @@ export async function POST(req: Request) {
     await dbConnect();
     const data = await req.json();
     await Contact.create(data);
-    return NextResponse.json({ success: true, msg: 'تم الإرسال' });
+    return NextResponse.json({ success: true });
   } catch (e) {
-    console.error(e);
-    return NextResponse.json({ error: 'فشل الإرسال' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

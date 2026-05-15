@@ -342,7 +342,7 @@ export default function Home() {
                 </h2>
                 <p className={`text-center mb-8 ${isDark? 'text-gray-400' : 'text-gray-700'}`}>عندك مشروع؟ ابعتلي وهنبدأ على طول</p>
 
-                <form action="https://formspree.io/f/xdkogkpv" method="POST">
+                <form onSubmit={async (e) => { e.preventDefault(); const form = e.currentTarget; const data = Object.fromEntries(new FormData(form)); const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) }); if(res.ok){ alert("تم الإرسال بنجاح ✅"); form.reset(); } else { alert("حصل خطأ ❌"); } }}  method="POST">
                   <input
                     type="text"
                     placeholder="الاسم"

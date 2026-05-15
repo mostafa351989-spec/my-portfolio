@@ -1,10 +1,29 @@
-'use client';
-import { useEffect, useState } from 'react';
-export default function AdminSkills() {
-  const [skills, setSkills] = useState<any[]>([]);
-  const [name, setName] = useState('');
-  const fetchSkills = async () => { const res = await fetch('/api/skills'); setSkills(await res.json()); };
-  const addSkill = async (e: React.FormEvent) => { e.preventDefault(); await fetch('/api/skills', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name }) }); setName(''); fetchSkills(); };
-  useEffect(() => { fetchSkills(); }, []);
-  return (<div className="p-6 text-white"><h1 className="text-2xl font-bold mb-4">المهارات</h1><form onSubmit={addSkill} className="mb-6 flex gap-2"><input value={name} onChange={e=>setName(e.target.value)} placeholder="اسم المهارة" className="p-2 bg-black/50 rounded flex-1" /><button type="submit" className="bg-indigo-600 px-4 py-2 rounded">إضافة</button></form><div className="flex flex-wrap gap-2">{skills.map(s=><span key={s._id} className="px-3 py-1 bg-white/10 rounded">{s.name}</span>)}</div></div>);
+import { MongoClient } from 'mongodb';
+import Link from 'next/link';
+
+async function getSkills() {
+  const client = await MongoClient.connect(process.env.MONGODB_URI!);
+  const skills = await client.db().collection('skills').find().toArray();
+  client.close();
+  return skills;
+}
+
+export default async function SkillsPage() {
+  const skills = await getSkills();
+  return (
+    <div className="p-4 md:p-8 bg-black min-h-screen text-white">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">إدارة المهارات</h1>
+        <Link href="/admin/skills/new" className="bg-white text-black px-4 py-2 rounded">+ إضافة</Link>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {skills.map((s:any) => (
+          <div key={s._id} className="bg-zinc-900 p-4 rounded-xl text-center">
+            <div className="font-bold">{s.name}</div>
+            <div className="text-sm text-zinc-400">{s.level}%</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 }

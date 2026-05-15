@@ -1,8 +1,25 @@
-'use client';
-import { useEffect, useState } from 'react';
-export default function AdminProfile() {
-  const [profile, setProfile] = useState({ name: 'مصطفى محمود عيسى', title: 'مصمم مواقع', whatsapp: '01044907363' });
-  useEffect(() => { fetch('/api/profile').then(r=>r.json()).then(setProfile); }, []);
-  const update = async (e: React.FormEvent) => { e.preventDefault(); await fetch('/api/profile', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(profile) }); alert('تم التحديث'); };
-  return (<div className="p-6 text-white"><h1 className="text-2xl font-bold mb-4">الملف الشخصي</h1><form onSubmit={update} className="space-y-4"><input value={profile.name} onChange={e=>setProfile({...profile,name:e.target.value})} className="w-full p-2 bg-black/50 rounded" /><input value={profile.title} onChange={e=>setProfile({...profile,title:e.target.value})} className="w-full p-2 bg-black/50 rounded" /><input value={profile.whatsapp} onChange={e=>setProfile({...profile,whatsapp:e.target.value})} className="w-full p-2 bg-black/50 rounded" /><button type="submit" className="bg-indigo-600 px-6 py-2 rounded">حفظ</button></form></div>);
+import { MongoClient } from 'mongodb';
+
+async function getProfile() {
+  const client = await MongoClient.connect(process.env.MONGODB_URI!);
+  const profile = await client.db().collection('profile').findOne({});
+  client.close();
+  return profile;
+}
+
+export default async function ProfilePage() {
+  const profile = await getProfile() || {};
+  return (
+    <div className="p-4 md:p-8 bg-black min-h-screen text-white max-w-2xl mx-auto">
+      <h1 className="text-2xl font-bold mb-6">تعديل البروفايل</h1>
+      <form action="/api/profile" method="POST" className="space-y-4">
+        <input name="name" defaultValue={profile.name} placeholder="الاسم" className="w-full p-3 bg-zinc-900 rounded" />
+        <input name="title" defaultValue={profile.title} placeholder="المسمى الوظيفي" className="w-full p-3 bg-zinc-900 rounded" />
+        <textarea name="bio" defaultValue={profile.bio} placeholder="نبذة عنك" className="w-full p-3 bg-zinc-900 rounded h-32" />
+        <input name="github" defaultValue={profile.github} placeholder="GitHub" className="w-full p-3 bg-zinc-900 rounded" />
+        <input name="linkedin" defaultValue={profile.linkedin} placeholder="LinkedIn" className="w-full p-3 bg-zinc-900 rounded" />
+        <button className="bg-white text-black px-6 py-3 rounded font-bold w-full">حفظ التعديلات</button>
+      </form>
+    </div>
+  )
 }

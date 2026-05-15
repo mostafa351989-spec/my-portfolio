@@ -1,2 +1,4 @@
-pages/ deleted
-pages/
+node_modules
+.next
+.env
+.vercel

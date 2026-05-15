@@ -342,7 +342,7 @@ export default function Home() {
                 </h2>
                 <p className={`text-center mb-8 ${isDark? 'text-gray-400' : 'text-gray-700'}`}>عندك مشروع؟ ابعتلي وهنبدأ على طول</p>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form action="https://formspree.io/f/xdkogkpv" method="POST">
                   <input
                     type="text"
                     placeholder="الاسم"
